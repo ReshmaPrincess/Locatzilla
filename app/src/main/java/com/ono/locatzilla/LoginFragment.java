@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,6 +44,7 @@ public class LoginFragment extends Fragment {
     Activity activity;
     TextView msgtex;
     Button loginbutton;
+    ImageView imgFingerPrint;
 
 
     // TODO: Rename and change types of parameters
@@ -90,6 +92,7 @@ public class LoginFragment extends Fragment {
 
 
         loginbutton = root.findViewById(R.id.login);
+        imgFingerPrint = root.findViewById(R.id.imgFingerPrint);
         msgtex = root.findViewById(R.id.msgtext);
 
 
@@ -105,19 +108,19 @@ public class LoginFragment extends Fragment {
             // this means that the device doesn't have fingerprint sensor
             case BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE:
                 msgtex.setText("This device doesnot have a fingerprint sensor");
-                loginbutton.setVisibility(View.GONE);
+                imgFingerPrint.setVisibility(View.GONE);
                 break;
 
             // this means that biometric sensor is not available
             case BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE:
                 msgtex.setText("The biometric sensor is currently unavailable");
-                loginbutton.setVisibility(View.GONE);
+                imgFingerPrint.setVisibility(View.GONE);
                 break;
 
             // this means that the device doesn't contain your fingerprint
             case BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED:
                 msgtex.setText("Your device doesn't have fingerprint saved,please check your security settings");
-                loginbutton.setVisibility(View.GONE);
+                imgFingerPrint.setVisibility(View.GONE);
 
                 final Intent enrollIntent = new Intent(Settings.ACTION_BIOMETRIC_ENROLL);
                 enrollIntent.putExtra(Settings.EXTRA_BIOMETRIC_AUTHENTICATORS_ALLOWED,
@@ -152,9 +155,14 @@ public class LoginFragment extends Fragment {
         final BiometricPrompt.PromptInfo promptInfo = new BiometricPrompt.PromptInfo.Builder().setTitle("Biometric login for my app")
                 .setDescription("Log in using your biometric credential").setNegativeButtonText("Cancel").build();
 
-        loginbutton.setOnClickListener(v -> biometricPrompt.authenticate(promptInfo));
+        imgFingerPrint.setOnClickListener(v -> biometricPrompt.authenticate(promptInfo));
 
         return root;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
     }
 
     private void navigateFragment() {
