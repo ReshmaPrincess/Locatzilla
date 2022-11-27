@@ -153,7 +153,6 @@ public class PersonalityFragment extends Fragment implements View.OnClickListene
         });
 
         mRequestQueue.add(jsonObjectRequest);
-
     }
 
     @Override
