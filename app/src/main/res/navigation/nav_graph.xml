@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/loginFragment">
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.ono.locatzilla.LoginFragment"
+        android:label="LoginFragment"
+        tools:layout="@layout/fragment_login">
+        <action
+            android:id="@+id/action_loginFragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="com.ono.locatzilla.MainFragment"
+        android:label="MainFragment"
+        tools:layout="@layout/fragment_main" >
+        <action
+            android:id="@+id/action_mainFragment_to_menuFragment"
+            app:destination="@id/menuFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/menuFragment"
+        android:name="com.ono.locatzilla.MenuFragment"
+        android:label="fragment_menu"
+        tools:layout="@layout/fragment_menu" >
+        <action
+            android:id="@+id/action_menuFragment_to_personalityFragment"
+            app:destination="@id/personalityFragment" />
+        <action
+            android:id="@+id/action_menuFragment_to_memoriesFragment"
+            app:destination="@id/memoriesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/personalityFragment"
+        android:name="com.ono.locatzilla.PersonalityFragment"
+        android:label="fragment_personality"
+        tools:layout="@layout/fragment_personality" />
+    <fragment
+        android:id="@+id/memoriesFragment"
+        android:name="com.ono.locatzilla.MemoriesFragment"
+        android:label="fragment_memories"
+        tools:layout="@layout/fragment_memories" />
+</navigation>
