@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +25,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -68,6 +71,8 @@ public class MemoriesFragment extends Fragment {
     private FloatingActionButton floatingActionButton;
     private List<DtoMemory> memoryList = new ArrayList<>();
     private MemoriesAdapter memoriesAdapter;
+    private Handler handler = new Handler();
+    private Executor executor = Executors.newSingleThreadExecutor();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -77,11 +82,12 @@ public class MemoriesFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
-        Object obj = TempDatabaseController.getValue(TempDatabaseController.MEMORY);
-        if (obj != null) {
-            memoryList = (List<DtoMemory>) obj;
-        }
-
+        executor.execute(() -> {
+            memoryList = DatabaseEngine.getInstance().getDBInstance().memoriesDao().getAllImages();
+            if (memoryList == null || memoryList.isEmpty()) {
+                memoryList = new ArrayList<>();
+            }
+        });
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -145,13 +151,14 @@ public class MemoriesFragment extends Fragment {
         if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
             theImage = (Bitmap) data.getExtras().get("data");
             photo = getEncodedString(theImage);
-            DtoMemory dtoMemory = new DtoMemory(String.valueOf(System.currentTimeMillis()), photo);
+            DtoMemory dtoMemory = new DtoMemory(0, String.valueOf(System.currentTimeMillis()), photo);
+            executor.execute(() -> {
+                DatabaseEngine.getInstance().getDBInstance().memoriesDao().addNewMemory(dtoMemory);
+            });
             memoryList.add(dtoMemory);
             memoriesAdapter.notifyItemInserted(memoryList.size() - 1);
-            TempDatabaseController.setValue(TempDatabaseController.MEMORY, memoryList);
         }
     }
-
 
     private String getEncodedString(Bitmap bitmap) {
         ByteArrayOutputStream os = new ByteArrayOutputStream();

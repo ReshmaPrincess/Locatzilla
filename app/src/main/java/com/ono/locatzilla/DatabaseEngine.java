@@ -18,6 +18,14 @@ public class DatabaseEngine {
         this.context = context;
     }
 
+    public static DatabaseEngine getInstance() {
+        if (databaseEngine == null) {
+            databaseEngine = new DatabaseEngine();
+        }
+
+        return databaseEngine;
+    }
+
     public static DatabaseEngine getInstance(Context context) {
         if (databaseEngine == null) {
             databaseEngine = new DatabaseEngine(context);
@@ -27,7 +35,7 @@ public class DatabaseEngine {
     }
 
     public void initializeDatabase() {
-        db = Room.databaseBuilder(context, DatabaseClass.class, "locatzilla_database").build();
+        db = Room.databaseBuilder(context, DatabaseClass.class, "locatzilla_database").fallbackToDestructiveMigration().build();
     }
 
     public DatabaseClass getDBInstance() {
