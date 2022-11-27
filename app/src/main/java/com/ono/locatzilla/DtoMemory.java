@@ -1,7 +1,16 @@
 package com.ono.locatzilla;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+@Entity
 public class DtoMemory {
+    @PrimaryKey
+    private int id;
+    @ColumnInfo(name = "image_name")
     private String imageName;
+    @ColumnInfo(name = "image_path")
     private String imagePath;
 
     public DtoMemory(String imageName, String imagePath) {
