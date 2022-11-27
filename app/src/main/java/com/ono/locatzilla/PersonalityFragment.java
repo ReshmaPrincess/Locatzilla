@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
@@ -16,6 +17,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.ono.locatzilla.Models.PersonalityModel;
+import com.ono.locatzilla.Models.Result;
 
 import java.io.UnsupportedEncodingException;
 
@@ -78,8 +80,16 @@ public class PersonalityFragment extends Fragment implements View.OnClickListene
     }
 
     Button btnPersonality, btnSaverPersonality, btnSharePersonality;
+    TextView tvPersonName, tvPersonGender, tvPersonEmail, tvPersonDob, tvPersonPhone, tvPersonLocation;
 
     private void initComponents(View view) {
+        tvPersonName = view.findViewById(R.id.tvPersonName);
+        tvPersonGender = view.findViewById(R.id.tvPersonGender);
+        tvPersonEmail = view.findViewById(R.id.tvPersonEmail);
+        tvPersonDob = view.findViewById(R.id.tvPersonDob);
+        tvPersonPhone = view.findViewById(R.id.tvPersonPhone);
+        tvPersonLocation = view.findViewById(R.id.tvPersonLocation);
+
         btnPersonality = view.findViewById(R.id.btnSearchPersonality);
         btnSaverPersonality = view.findViewById(R.id.btnSaverPersonality);
         btnSharePersonality = view.findViewById(R.id.btnSharePersonality);
@@ -91,8 +101,19 @@ public class PersonalityFragment extends Fragment implements View.OnClickListene
         btnSharePersonality.setOnClickListener(this);
     }
 
+    private void displayPersonalityTraits(Result personality) {
+
+        tvPersonName.setText(new StringBuilder().append(personality.getName().getFirst()).append(" ").append(personality.getName().getLast()));
+        tvPersonGender.setText(personality.getGender());
+        tvPersonEmail.setText(personality.getEmail());
+        tvPersonDob.setText(personality.getDob().getDate());
+        tvPersonPhone.setText(personality.getPhone());
+        tvPersonLocation.setText(new StringBuilder().append(personality.getLocation().getCity()).append(" ").append(personality.getLocation().getState()).append(" ").append(personality.getLocation().getCountry()));
+    }
+
 
     private RequestQueue mRequestQueue;
+    private Result result;
 
     private void findYourPersonality() {
         String url = "https://randomuser.me/api/";
@@ -106,7 +127,9 @@ public class PersonalityFragment extends Fragment implements View.OnClickListene
 
             Gson gson = new Gson();
             PersonalityModel model = gson.fromJson(response.toString(), PersonalityModel.class);
-            Log.i(TAG, "Response :" + model.toString());
+            result = model.getResults().get(0);
+            displayPersonalityTraits(result);
+            Log.i(TAG, "Response :" + response.toString());
 
             pDialog.dismiss();
         }, error -> {
@@ -137,6 +160,10 @@ public class PersonalityFragment extends Fragment implements View.OnClickListene
     public void onClick(View v) {
         if (v.getId() == R.id.btnSearchPersonality) {
             findYourPersonality();
+        } else if (v.getId() == R.id.btnSaverPersonality) {
+
+        } else if (v.getId() == R.id.btnSharePersonality) {
+
         }
     }
 }
