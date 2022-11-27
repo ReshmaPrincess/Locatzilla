@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
@@ -19,8 +18,6 @@ import com.google.gson.Gson;
 import com.ono.locatzilla.Models.PersonalityModel;
 
 import java.io.UnsupportedEncodingException;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -80,16 +77,18 @@ public class PersonalityFragment extends Fragment implements View.OnClickListene
         return view;
     }
 
-    Button btnPersonality;
-    TextView tvPersonality;
+    Button btnPersonality, btnSaverPersonality, btnSharePersonality;
 
     private void initComponents(View view) {
         btnPersonality = view.findViewById(R.id.btnSearchPersonality);
-        tvPersonality = view.findViewById(R.id.tvPersonalityTraits);
+        btnSaverPersonality = view.findViewById(R.id.btnSaverPersonality);
+        btnSharePersonality = view.findViewById(R.id.btnSharePersonality);
     }
 
     private void initListeners() {
         btnPersonality.setOnClickListener(this);
+        btnSaverPersonality.setOnClickListener(this);
+        btnSharePersonality.setOnClickListener(this);
     }
 
 
@@ -116,7 +115,6 @@ public class PersonalityFragment extends Fragment implements View.OnClickListene
             }
 
             String body = "";
-            //get status code here
             final String statusCode = String.valueOf(error.networkResponse.statusCode);
             //get response body and parse with appropriate encoding
             try {
@@ -129,16 +127,7 @@ public class PersonalityFragment extends Fragment implements View.OnClickListene
 
 
             pDialog.dismiss();
-        }) {
-            @Override
-            public Map getHeaders() {
-                HashMap headers = new HashMap();
-//                headers.put("Content-Type", "application/json; charset=utf-8");
-//                headers.put("X-RapidAPI-Key", "27eb204886msh7788a5c81dac783p10b70bjsn81a33d56dc0b");
-//                headers.put("X-RapidAPI-Host", "movie-database-alternative.p.rapidapi.com");
-                return headers;
-            }
-        };
+        });
 
         mRequestQueue.add(jsonObjectRequest);
 
