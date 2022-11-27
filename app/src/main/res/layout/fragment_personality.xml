@@ -95,6 +95,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="@+id/textView4"
+        app:layout_constraintEnd_toEndOf="@+id/tvPersonName"
         app:layout_constraintStart_toStartOf="@+id/tvPersonName"
         app:layout_constraintTop_toTopOf="@+id/textView4" />
 
@@ -103,7 +104,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="@+id/textView5"
-        app:layout_constraintEnd_toEndOf="@+id/tvPersonEmail"
+        app:layout_constraintEnd_toEndOf="@+id/tvPersonName"
         app:layout_constraintStart_toStartOf="@+id/tvPersonName"
         app:layout_constraintTop_toTopOf="@+id/textView5" />
 
@@ -112,7 +113,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="@+id/textView6"
-        app:layout_constraintEnd_toEndOf="@+id/tvPersonDob"
+        app:layout_constraintEnd_toEndOf="@+id/tvPersonName"
         app:layout_constraintStart_toStartOf="@+id/tvPersonName"
         app:layout_constraintTop_toTopOf="@+id/textView6" />
 
@@ -121,7 +122,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="@+id/textView7"
-        app:layout_constraintEnd_toEndOf="@+id/tvPersonPhone"
+        app:layout_constraintEnd_toEndOf="@+id/tvPersonName"
         app:layout_constraintStart_toStartOf="@+id/tvPersonName"
         app:layout_constraintTop_toTopOf="@+id/textView7" />
 

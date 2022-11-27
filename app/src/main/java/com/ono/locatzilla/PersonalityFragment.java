@@ -173,10 +173,15 @@ public class PersonalityFragment extends Fragment implements View.OnClickListene
                 .append("DOB : \t").append(result.getDob().getDate()).append("\n")
                 .append("Phone : \t").append(result.getPhone()).append("\n")
                 .append("Location : \t").append(result.getLocation().getCity()).append(" ").append(result.getLocation().getState()).append(" ").append(result.getLocation().getCountry());
-        Intent sendIntent = new Intent(Intent.ACTION_SEND);
+
+        Intent sendIntent = new Intent();
+        sendIntent.setAction(Intent.ACTION_SEND);
         sendIntent.putExtra(Intent.EXTRA_TEXT, traits.toString());
         sendIntent.putExtra(Intent.EXTRA_TITLE, "Personality Traits");
-        sendIntent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        startActivity(Intent.createChooser(sendIntent, null));
+        sendIntent.setType("text/plain");
+
+        Intent shareIntent = Intent.createChooser(sendIntent, null);
+        startActivity(shareIntent);
+
     }
 }
