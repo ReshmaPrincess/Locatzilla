@@ -77,6 +77,7 @@ public class PersonalityFragment extends Fragment implements View.OnClickListene
         View view = inflater.inflate(R.layout.fragment_personality, container, false);
         initComponents(view);
         initListeners();
+        findYourPersonality();
         return view;
     }
 
