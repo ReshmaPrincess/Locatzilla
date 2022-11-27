@@ -1,6 +1,7 @@
 package com.ono.locatzilla;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -102,7 +103,6 @@ public class PersonalityFragment extends Fragment implements View.OnClickListene
     }
 
     private void displayPersonalityTraits(Result personality) {
-
         tvPersonName.setText(new StringBuilder().append(personality.getName().getFirst()).append(" ").append(personality.getName().getLast()));
         tvPersonGender.setText(personality.getGender());
         tvPersonEmail.setText(personality.getEmail());
@@ -162,7 +162,21 @@ public class PersonalityFragment extends Fragment implements View.OnClickListene
         } else if (v.getId() == R.id.btnSaverPersonality) {
 
         } else if (v.getId() == R.id.btnSharePersonality) {
-
+            sharePersonality();
         }
+    }
+
+    private void sharePersonality() {
+        StringBuilder traits = new StringBuilder().append("Name : \t").append(result.getName().getFirst()).append(" ").append(result.getName().getLast()).append("\n")
+                .append("Gender : \t").append(result.getGender()).append("\n")
+                .append("Email : \t").append(result.getEmail()).append("\n")
+                .append("DOB : \t").append(result.getDob().getDate()).append("\n")
+                .append("Phone : \t").append(result.getPhone()).append("\n")
+                .append("Location : \t").append(result.getLocation().getCity()).append(" ").append(result.getLocation().getState()).append(" ").append(result.getLocation().getCountry());
+        Intent sendIntent = new Intent(Intent.ACTION_SEND);
+        sendIntent.putExtra(Intent.EXTRA_TEXT, traits.toString());
+        sendIntent.putExtra(Intent.EXTRA_TITLE, "Personality Traits");
+        sendIntent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        startActivity(Intent.createChooser(sendIntent, null));
     }
 }
