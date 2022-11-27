@@ -141,8 +141,13 @@ public class LoginFragment extends Fragment {
             @Override
             public void onAuthenticationSucceeded(@NonNull BiometricPrompt.AuthenticationResult result) {
                 super.onAuthenticationSucceeded(result);
-                Toast.makeText(activity, "Login Success", Toast.LENGTH_SHORT).show();
-                loginbutton.setText("Login Successful");
+                if (!TempDatabaseController.isKeyExist(TempDatabaseController.USERNAME)) {
+                    Toast.makeText(activity, "Login Success", Toast.LENGTH_SHORT).show();
+                } else {
+                    String name = (String) TempDatabaseController.getValue(TempDatabaseController.USERNAME);
+                    Toast.makeText(activity, "Welcome back " + name, Toast.LENGTH_SHORT).show();
+                }
+//                loginbutton.setText("Login Successful");
                 navigateFragment();
             }
 
@@ -167,13 +172,24 @@ public class LoginFragment extends Fragment {
 
     private void navigateFragment() {
         NavController navController = NavHostFragment.findNavController(this);
-        navController.navigate(
-                R.id.action_loginFragment_to_mainFragment,
-                null,
-                new NavOptions.Builder()
-                        .setEnterAnim(android.R.animator.fade_in)
-                        .setExitAnim(android.R.animator.fade_out)
-                        .build()
-        );
+        if (!TempDatabaseController.isKeyExist(TempDatabaseController.USERNAME)) {
+            navController.navigate(
+                    R.id.action_loginFragment_to_mainFragment,
+                    null,
+                    new NavOptions.Builder()
+                            .setEnterAnim(android.R.animator.fade_in)
+                            .setExitAnim(android.R.animator.fade_out)
+                            .build()
+            );
+        } else {
+            navController.navigate(
+                    R.id.action_loginFragment_to_menuFragment,
+                    null,
+                    new NavOptions.Builder()
+                            .setEnterAnim(android.R.animator.fade_in)
+                            .setExitAnim(android.R.animator.fade_out)
+                            .build()
+            );
+        }
     }
 }
