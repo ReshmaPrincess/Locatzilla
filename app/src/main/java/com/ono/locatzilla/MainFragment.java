@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
@@ -70,18 +72,28 @@ public class MainFragment extends Fragment {
     }
 
     FloatingActionButton floatingActionButton;
+    EditText editTextTextPersonName;
+
 
     private void initComponents(View view) {
         floatingActionButton = view.findViewById(R.id.floatingActionButton);
+        editTextTextPersonName = view.findViewById(R.id.editTextTextPersonName);
     }
 
     private void initListeners() {
-        floatingActionButton.setOnClickListener(v -> navigateFragment());
+        floatingActionButton.setOnClickListener(v -> {
+            String name = editTextTextPersonName.getText().toString().trim();
+            if (!name.equals("")) {
+                TempDatabaseController.setValue(TempDatabaseController.USERNAME, name);
+                navigateFragment();
+            } else {
+                Toast.makeText(requireContext(), "Please, enter you name.", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void navigateFragment() {
         NavController navController = NavHostFragment.findNavController(this);
-
         navController.navigate(
                 R.id.action_mainFragment_to_menuFragment,
                 null,

@@ -10,5 +10,8 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         Paper.init(this);
+
+        DatabaseEngine.getInstance(this).initializeDatabase();
+
     }
 }
