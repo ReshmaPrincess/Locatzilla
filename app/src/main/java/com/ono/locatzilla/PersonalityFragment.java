@@ -1,6 +1,7 @@
 package com.ono.locatzilla;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,10 +18,9 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.ono.locatzilla.Models.PersonalityModel;
+import com.ono.locatzilla.Models.Result;
 
 import java.io.UnsupportedEncodingException;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -77,23 +77,44 @@ public class PersonalityFragment extends Fragment implements View.OnClickListene
         View view = inflater.inflate(R.layout.fragment_personality, container, false);
         initComponents(view);
         initListeners();
+        findYourPersonality();
         return view;
     }
 
-    Button btnPersonality;
-    TextView tvPersonality;
+    Button btnPersonality, btnSaverPersonality, btnSharePersonality;
+    TextView tvPersonName, tvPersonGender, tvPersonEmail, tvPersonDob, tvPersonPhone, tvPersonLocation;
 
     private void initComponents(View view) {
+        tvPersonName = view.findViewById(R.id.tvPersonName);
+        tvPersonGender = view.findViewById(R.id.tvPersonGender);
+        tvPersonEmail = view.findViewById(R.id.tvPersonEmail);
+        tvPersonDob = view.findViewById(R.id.tvPersonDob);
+        tvPersonPhone = view.findViewById(R.id.tvPersonPhone);
+        tvPersonLocation = view.findViewById(R.id.tvPersonLocation);
+
         btnPersonality = view.findViewById(R.id.btnSearchPersonality);
-        tvPersonality = view.findViewById(R.id.tvPersonalityTraits);
+        btnSaverPersonality = view.findViewById(R.id.btnSaverPersonality);
+        btnSharePersonality = view.findViewById(R.id.btnSharePersonality);
     }
 
     private void initListeners() {
         btnPersonality.setOnClickListener(this);
+        btnSaverPersonality.setOnClickListener(this);
+        btnSharePersonality.setOnClickListener(this);
+    }
+
+    private void displayPersonalityTraits(Result personality) {
+        tvPersonName.setText(new StringBuilder().append(personality.getName().getFirst()).append(" ").append(personality.getName().getLast()));
+        tvPersonGender.setText(personality.getGender());
+        tvPersonEmail.setText(personality.getEmail());
+        tvPersonDob.setText(personality.getDob().getDate());
+        tvPersonPhone.setText(personality.getPhone());
+        tvPersonLocation.setText(new StringBuilder().append(personality.getLocation().getCity()).append(" ").append(personality.getLocation().getState()).append(" ").append(personality.getLocation().getCountry()));
     }
 
 
     private RequestQueue mRequestQueue;
+    private Result result;
 
     private void findYourPersonality() {
         String url = "https://randomuser.me/api/";
@@ -107,7 +128,9 @@ public class PersonalityFragment extends Fragment implements View.OnClickListene
 
             Gson gson = new Gson();
             PersonalityModel model = gson.fromJson(response.toString(), PersonalityModel.class);
-            Log.i(TAG, "Response :" + model.toString());
+            result = model.getResults().get(0);
+            displayPersonalityTraits(result);
+            Log.i(TAG, "Response :" + response.toString());
 
             pDialog.dismiss();
         }, error -> {
@@ -116,7 +139,6 @@ public class PersonalityFragment extends Fragment implements View.OnClickListene
             }
 
             String body = "";
-            //get status code here
             final String statusCode = String.valueOf(error.networkResponse.statusCode);
             //get response body and parse with appropriate encoding
             try {
@@ -129,25 +151,38 @@ public class PersonalityFragment extends Fragment implements View.OnClickListene
 
 
             pDialog.dismiss();
-        }) {
-            @Override
-            public Map getHeaders() {
-                HashMap headers = new HashMap();
-//                headers.put("Content-Type", "application/json; charset=utf-8");
-//                headers.put("X-RapidAPI-Key", "27eb204886msh7788a5c81dac783p10b70bjsn81a33d56dc0b");
-//                headers.put("X-RapidAPI-Host", "movie-database-alternative.p.rapidapi.com");
-                return headers;
-            }
-        };
+        });
 
         mRequestQueue.add(jsonObjectRequest);
-
     }
 
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.btnSearchPersonality) {
             findYourPersonality();
+        } else if (v.getId() == R.id.btnSaverPersonality) {
+
+        } else if (v.getId() == R.id.btnSharePersonality) {
+            sharePersonality();
         }
+    }
+
+    private void sharePersonality() {
+        StringBuilder traits = new StringBuilder().append("Name : \t").append(result.getName().getFirst()).append(" ").append(result.getName().getLast()).append("\n")
+                .append("Gender : \t").append(result.getGender()).append("\n")
+                .append("Email : \t").append(result.getEmail()).append("\n")
+                .append("DOB : \t").append(result.getDob().getDate()).append("\n")
+                .append("Phone : \t").append(result.getPhone()).append("\n")
+                .append("Location : \t").append(result.getLocation().getCity()).append(" ").append(result.getLocation().getState()).append(" ").append(result.getLocation().getCountry());
+
+        Intent sendIntent = new Intent();
+        sendIntent.setAction(Intent.ACTION_SEND);
+        sendIntent.putExtra(Intent.EXTRA_TEXT, traits.toString());
+        sendIntent.putExtra(Intent.EXTRA_TITLE, "Personality Traits");
+        sendIntent.setType("text/plain");
+
+        Intent shareIntent = Intent.createChooser(sendIntent, null);
+        startActivity(shareIntent);
+
     }
 }
