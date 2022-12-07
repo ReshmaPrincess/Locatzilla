@@ -1,5 +1,5 @@
 package com.ono.locatzilla;
 
 public enum ActionType {
-    MOVIE, CAMERA, LOCATION
+    MOVIE, CAMERA, LOCATION, PLAN
 }
