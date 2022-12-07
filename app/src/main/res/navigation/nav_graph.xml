@@ -14,16 +14,13 @@
             app:destination="@id/mainFragment" />
         <action
             android:id="@+id/action_loginFragment_to_menuFragment"
-            app:destination="@id/menuFragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:launchSingleTop="true" />
+            app:destination="@id/menuFragment" />
     </fragment>
     <fragment
         android:id="@+id/mainFragment"
         android:name="com.ono.locatzilla.MainFragment"
         android:label="MainFragment"
-        tools:layout="@layout/fragment_main">
+        tools:layout="@layout/fragment_main" >
         <action
             android:id="@+id/action_mainFragment_to_menuFragment"
             app:destination="@id/menuFragment" />
@@ -32,13 +29,16 @@
         android:id="@+id/menuFragment"
         android:name="com.ono.locatzilla.MenuFragment"
         android:label="fragment_menu"
-        tools:layout="@layout/fragment_menu">
+        tools:layout="@layout/fragment_menu" >
         <action
             android:id="@+id/action_menuFragment_to_personalityFragment"
             app:destination="@id/personalityFragment" />
         <action
             android:id="@+id/action_menuFragment_to_memoriesFragment"
             app:destination="@id/memoriesFragment" />
+        <action
+            android:id="@+id/action_menuFragment_to_sharePlanFragment"
+            app:destination="@id/sharePlanFragment" />
     </fragment>
     <fragment
         android:id="@+id/personalityFragment"
@@ -50,4 +50,9 @@
         android:name="com.ono.locatzilla.MemoriesFragment"
         android:label="fragment_memories"
         tools:layout="@layout/fragment_memories" />
+    <fragment
+        android:id="@+id/sharePlanFragment"
+        android:name="com.ono.locatzilla.SharePlanFragment"
+        android:label="fragment_share_plan"
+        tools:layout="@layout/fragment_share_plan" />
 </navigation>
