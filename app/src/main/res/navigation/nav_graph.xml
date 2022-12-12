@@ -6,7 +6,7 @@
     app:startDestination="@id/loginFragment">
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.ono.locatzilla.LoginFragment"
+        android:name="com.w9530581.letsplan.LoginFragment"
         android:label="LoginFragment"
         tools:layout="@layout/fragment_login">
         <action
@@ -18,7 +18,7 @@
     </fragment>
     <fragment
         android:id="@+id/mainFragment"
-        android:name="com.ono.locatzilla.MainFragment"
+        android:name="com.w9530581.letsplan.MainFragment"
         android:label="MainFragment"
         tools:layout="@layout/fragment_main" >
         <action
@@ -27,7 +27,7 @@
     </fragment>
     <fragment
         android:id="@+id/menuFragment"
-        android:name="com.ono.locatzilla.MenuFragment"
+        android:name="com.w9530581.letsplan.MenuFragment"
         android:label="fragment_menu"
         tools:layout="@layout/fragment_menu" >
         <action
@@ -42,17 +42,17 @@
     </fragment>
     <fragment
         android:id="@+id/personalityFragment"
-        android:name="com.ono.locatzilla.PersonalityFragment"
+        android:name="com.w9530581.letsplan.PersonalityFragment"
         android:label="fragment_personality"
         tools:layout="@layout/fragment_personality" />
     <fragment
         android:id="@+id/memoriesFragment"
-        android:name="com.ono.locatzilla.MemoriesFragment"
+        android:name="com.w9530581.letsplan.MemoriesFragment"
         android:label="fragment_memories"
         tools:layout="@layout/fragment_memories" />
     <fragment
         android:id="@+id/sharePlanFragment"
-        android:name="com.ono.locatzilla.SharePlanFragment"
+        android:name="com.w9530581.letsplan.SharePlanFragment"
         android:label="fragment_share_plan"
         tools:layout="@layout/fragment_share_plan" />
 </navigation>
