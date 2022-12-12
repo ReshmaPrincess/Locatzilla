@@ -24,7 +24,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
@@ -69,7 +68,7 @@ public class MemoriesFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private FloatingActionButton floatingActionButton;
-    private List<DtoMemory> memoryList = new ArrayList<>();
+    private ArrayList<DtoMemory> memoryList = new ArrayList<>();
     private MemoriesAdapter memoriesAdapter;
     private Handler handler = new Handler();
     private Executor executor = Executors.newSingleThreadExecutor();
@@ -83,7 +82,7 @@ public class MemoriesFragment extends Fragment {
         }
 
         executor.execute(() -> {
-            memoryList = DatabaseEngine.getInstance().getDBInstance().memoriesDao().getAllImages();
+            memoryList = (ArrayList<DtoMemory>) DatabaseEngine.getInstance().getDBInstance().memoriesDao().getAllImages();
             if (memoryList == null || memoryList.isEmpty()) {
                 memoryList = new ArrayList<>();
             }
