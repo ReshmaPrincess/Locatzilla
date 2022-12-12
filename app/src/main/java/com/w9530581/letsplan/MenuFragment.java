@@ -59,21 +59,21 @@ public class MenuFragment extends Fragment implements View.OnClickListener {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_menu, container, false);
         initComponents(view);
         initListeners();
         return view;
     }
 
-    private Button btnPersonality, btnRecollection, btnPlaces, btnSharePlan;
+    private Button btnPersonality, btnRecollection, btnPlaces, btnSharePlan, btnExit;
 
     private void initComponents(View view) {
         btnPersonality = view.findViewById(R.id.btnPresonality);
         btnRecollection = view.findViewById(R.id.btnRecollection);
         btnPlaces = view.findViewById(R.id.btnMaps);
         btnSharePlan = view.findViewById(R.id.btnSharePlan);
+        btnExit = view.findViewById(R.id.btnExit);
     }
 
     private void initListeners() {
@@ -81,6 +81,7 @@ public class MenuFragment extends Fragment implements View.OnClickListener {
         btnRecollection.setOnClickListener(this);
         btnPlaces.setOnClickListener(this);
         btnSharePlan.setOnClickListener(this);
+        btnExit.setOnClickListener(this);
     }
 
     @Override
@@ -93,6 +94,8 @@ public class MenuFragment extends Fragment implements View.OnClickListener {
 //            navigateFragment(ActionType.MOVIE);
         } else if (v.getId() == R.id.btnSharePlan) {
             navigateFragment(ActionType.PLAN);
+        } else if (v.getId() == R.id.btnExit) {
+            requireActivity().finish();
         }
     }
 
