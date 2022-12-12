@@ -1,5 +1,7 @@
 package com.w9530581.letsplan;
 
+import static com.w9530581.letsplan.TempDatabaseController.PERSONALITY;
+
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -21,6 +23,7 @@ import com.w9530581.letsplan.Models.PersonalityModel;
 import com.w9530581.letsplan.Models.Result;
 
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -81,7 +84,8 @@ public class PersonalityFragment extends Fragment implements View.OnClickListene
         return view;
     }
 
-    Button btnPersonality, btnSaverPersonality, btnSharePersonality;
+
+    Button btnPersonality, btnSaverPersonality, btnSharePersonality, btnHistory;
     TextView tvPersonName, tvPersonGender, tvPersonEmail, tvPersonDob, tvPersonPhone, tvPersonLocation;
 
     private void initComponents(View view) {
@@ -95,12 +99,14 @@ public class PersonalityFragment extends Fragment implements View.OnClickListene
         btnPersonality = view.findViewById(R.id.btnSearchPersonality);
         btnSaverPersonality = view.findViewById(R.id.btnSaverPersonality);
         btnSharePersonality = view.findViewById(R.id.btnSharePersonality);
+        btnHistory = view.findViewById(R.id.btnHistory);
     }
 
     private void initListeners() {
         btnPersonality.setOnClickListener(this);
         btnSaverPersonality.setOnClickListener(this);
         btnSharePersonality.setOnClickListener(this);
+        btnHistory.setOnClickListener(this);
     }
 
     private void displayPersonalityTraits(Result personality) {
@@ -111,7 +117,6 @@ public class PersonalityFragment extends Fragment implements View.OnClickListene
         tvPersonPhone.setText(personality.getPhone());
         tvPersonLocation.setText(new StringBuilder().append(personality.getLocation().getCity()).append(" ").append(personality.getLocation().getState()).append(" ").append(personality.getLocation().getCountry()));
     }
-
 
     private RequestQueue mRequestQueue;
     private Result result;
@@ -162,8 +167,17 @@ public class PersonalityFragment extends Fragment implements View.OnClickListene
             findYourPersonality();
         } else if (v.getId() == R.id.btnSaverPersonality) {
 
+            ArrayList<Result> personalities = (ArrayList<Result>) TempDatabaseController.getValue(PERSONALITY);
+            if (personalities == null || personalities.isEmpty()) {
+                personalities = new ArrayList<>();
+            }
+            personalities.add(result);
+            TempDatabaseController.setValue(PERSONALITY, personalities);
+
         } else if (v.getId() == R.id.btnSharePersonality) {
             sharePersonality();
+        } else if (v.getId() == R.id.btnHistory) {
+            startActivity(new Intent(requireContext(), SavedPersonalitiesActivity.class));
         }
     }
 
