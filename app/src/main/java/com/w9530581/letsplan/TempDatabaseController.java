@@ -4,7 +4,7 @@ import io.paperdb.Paper;
 
 public class TempDatabaseController {
     public static final String USERNAME = "USERNAME";
-    public static final String MEMORY = "MEMORY";
+    public static final String PERSONALITY = "PERSONALITY";
 
     public static boolean isKeyExist(String key) {
         return Paper.book().contains(key);
