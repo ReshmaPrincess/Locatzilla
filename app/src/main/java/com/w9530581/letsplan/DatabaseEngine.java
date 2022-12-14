@@ -35,7 +35,7 @@ public class DatabaseEngine {
     }
 
     public void initializeDatabase() {
-        db = Room.databaseBuilder(context, DatabaseClass.class, "locatzilla_database").fallbackToDestructiveMigration().build();
+        db = Room.databaseBuilder(context, DatabaseClass.class, "letsplan_database").fallbackToDestructiveMigration().build();
     }
 
     public DatabaseClass getDBInstance() {
